@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 
 const Registration = () => {
@@ -106,6 +106,14 @@ const Registration = () => {
         {successMessage && (
           <p className="text-green-500 text-sm mt-2">{successMessage}</p>
         )}
+        <div className="mt-4 text-center">
+          <h3>
+            Already have an account?
+            <strong className="m-1 text-indigo-700">
+              <Link to="/login">Login</Link>
+            </strong>
+          </h3>
+        </div>
       </form>
     </div>
   );

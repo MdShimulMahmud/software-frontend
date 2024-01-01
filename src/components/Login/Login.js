@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axios";
 const Login = () => {
   const navigate = useNavigate();
@@ -82,6 +82,15 @@ const Login = () => {
           </button>
         </div>
         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+
+        <div className="mt-4 text-center">
+          <h3>
+            Don't have an account? Create a new account!
+            <strong className="m-1 text-indigo-700">
+              <Link to="/register">Register</Link>
+            </strong>
+          </h3>
+        </div>
       </form>
     </div>
   );

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-// import axiosInstance from "../../utils/axios";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/axios";
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -20,14 +21,11 @@ const Login = () => {
     setError(null);
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/users/login",
-        formData
-      );
-      //   console.log("Response from backend:", response.data);
-      // Handle successful login, e.g., store authentication token, redirect, etc.
+      const response = await axiosInstance.post("/users/login", formData);
+      console.log("Response from backend:", response.data);
+      // response.cookie("token", response.data.token);
+      navigate("/");
     } catch (error) {
-      //   console.error("Error:", error.response.data);
       setError("Invalid credentials. Please try again.");
     } finally {
       setIsLoading(false);
@@ -35,7 +33,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center h-[100vh]">
       <form
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-96"
         onSubmit={handleSubmit}

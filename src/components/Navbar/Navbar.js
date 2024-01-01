@@ -18,6 +18,9 @@ const Navbar = () => {
           />
         </div>
         <div>
+          <Link to="/posts/create" className="btn btn-ghost bg-blue-400">
+            Add Post
+          </Link>
           <Link to="/login" className="btn btn-ghost">
             Login
           </Link>
@@ -42,14 +45,14 @@ const Navbar = () => {
             tabIndex={0}
             className="mt-3 z-[1] py-5 shadow menu menu-sm dropdown-content bg-white rounded-box w-60"
           >
-            <li>
-              <a className="justify-between">Profile</a>
+            <li className=" p-2">
+              <Link>Profile</Link>
             </li>
-            <li>
-              <a>Settings</a>
+            <li className=" p-2">
+              <Link>Settings</Link>
             </li>
-            <li>
-              <a>Logout</a>
+            <li className=" p-2">
+              <Link>Logout</Link>
             </li>
           </ul>
         </div>

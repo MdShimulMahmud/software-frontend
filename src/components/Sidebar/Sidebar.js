@@ -2,7 +2,7 @@ import React from "react";
 
 const Sidebar = () => {
   return (
-    <aside className="bg-gray-200 p-4 w-[20%] ">
+    <aside className="bg-gray-200 p-4 w-[15%] ">
       <div className="mb-4">
         <h2 className="text-xl font-bold mb-2 mt-3">Filters</h2>
         {/* Render filtering options */}

@@ -5,6 +5,8 @@ import Footer from "./components/Footer/Footer";
 import Login from "./components/Login/Login";
 import Navbar from "./components/Navbar/Navbar";
 import AddPost from "./components/Post/AddPost";
+import DeletePost from "./components/Post/DeletePost";
+import EditPost from "./components/Post/EditPost";
 import PostDescription from "./components/Post/PostDescription";
 import Registration from "./components/Register/Register";
 import Home from "./pages/Home";
@@ -21,6 +23,8 @@ function App() {
         <Route path="/posts" element={<Posts />} />
         <Route path="/posts/create" element={<AddPost />} />
         <Route path="/posts/:postId" element={<PostDescription />} />
+        <Route path="/posts/:postId/delete" element={<DeletePost />} />
+        <Route path="/posts/:postId/edit" element={<EditPost />} />
       </Routes>
       <Footer />
     </Router>

@@ -1,14 +1,47 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { api } from "../../utils/api";
+import axiosInstance from "../../utils/axios";
 
 const AddPost = () => {
+  const navigate = useNavigate();
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const handleImageUpload = async (e) => {
+    setLoading(true);
+    const files = e.target.files;
+
+    const data = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      data.append("file", files[i]);
+      data.append("upload_preset", "software");
+      data.append("tags", "multiple_images");
+      try {
+        const res = await axios.post(
+          `https://api.cloudinary.com/v1_1/du55ossud/image/upload`,
+          data
+        );
+
+        setImages((prevImages) => [
+          ...prevImages,
+          prevImages.push(res.data.secure_url),
+        ]);
+      } catch (err) {
+        console.error("Error uploading image: ", err);
+      }
+    }
+    setLoading(false);
+  };
+
   const [formData, setFormData] = useState({
     title: "",
     seatCapacity: 0,
     price: 0,
-    photos: [],
+    photos: images,
     type: "",
-    available: false,
+    available: true,
     contact: "",
     details: "",
     location: "",
@@ -16,27 +49,12 @@ const AddPost = () => {
   });
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const newValue =
-      type === "number"
-        ? parseInt(value)
-        : type === "checkbox"
-        ? checked
-        : value;
+    const { name, value, type } = e.target;
+    const newValue = type === "number" ? parseInt(value) : value;
 
     setFormData({
       ...formData,
       [name]: newValue,
-    });
-  };
-
-  const handlePhotoUpload = (e) => {
-    const files = Array.from(e.target.files);
-    const uploadedPhotos = files.map((file) => URL.createObjectURL(file));
-
-    setFormData({
-      ...formData,
-      photos: uploadedPhotos,
     });
   };
 
@@ -46,24 +64,25 @@ const AddPost = () => {
     console.log(formData);
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/posts/",
-        formData
-      );
-      console.log("Post request response:", response.data);
-      // Reset the form after successful submission if needed
-      setFormData({
-        title: "",
-        seatCapacity: 0,
-        price: 0,
-        photos: [],
-        type: "",
-        available: false,
-        contact: "",
-        details: "",
-        location: "",
-        coordinates: "",
+      const response = await axiosInstance.post(`${api}/posts/create/`, {
+        ...formData,
       });
+
+      if (response.data) {
+        navigate("/");
+
+        setFormData({
+          title: "",
+          seatCapacity: 0,
+          price: 0,
+          photos: [],
+          type: "",
+          contact: "",
+          details: "",
+          location: "",
+          coordinates: "",
+        });
+      }
     } catch (error) {
       console.error("Error posting data:", error);
     }
@@ -106,16 +125,7 @@ const AddPost = () => {
         placeholder="Type"
         className="w-full border rounded-md p-2 mb-4"
       />
-      <label className="flex items-center mb-4">
-        <input
-          type="checkbox"
-          name="available"
-          checked={formData.available}
-          onChange={handleInputChange}
-          className="form-checkbox h-5 w-5 text-blue-500 rounded mr-2"
-        />
-        Available
-      </label>
+
       <input
         type="text"
         name="contact"
@@ -150,13 +160,15 @@ const AddPost = () => {
       />
       <input
         type="file"
-        name="photos"
-        onChange={handlePhotoUpload}
+        onChange={handleImageUpload}
         multiple
         className="mb-4"
       />
+
+      {loading && <p className="text-red-500">Uploading...</p>}
+
       {formData.photos.length > 0 && (
-        <div className="mb-4">
+        <div className="mb-4 flex flex-row">
           {formData.photos.map((photo, index) => (
             <img
               key={index}

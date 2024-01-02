@@ -43,15 +43,15 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="mt-3 z-[1] py-5 shadow menu menu-sm dropdown-content bg-white rounded-box w-60"
+            className="mt-3 z-[1] py-3 shadow menu menu-sm dropdown-content bg-white rounded-box w-60"
           >
-            <li className=" p-2">
+            <li className=" p-1">
               <Link>Profile</Link>
             </li>
-            <li className=" p-2">
+            <li className=" p-1">
               <Link>Settings</Link>
             </li>
-            <li className=" p-2">
+            <li className=" p-1">
               <Link>Logout</Link>
             </li>
           </ul>

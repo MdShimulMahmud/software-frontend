@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../utils/api";
 import axiosInstance from "../../utils/axios";
+
+async function deletePost(postId) {
+  try {
+    const response = await axiosInstance.delete(`${api}/posts/${postId}`);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}
 
 async function fetchPosts(postId) {
   try {
@@ -14,7 +23,7 @@ async function fetchPosts(postId) {
   }
 }
 
-const PostDescription = () => {
+const DeletePost = () => {
   const navigate = useNavigate();
 
   const [post, setPost] = useState({});
@@ -26,6 +35,12 @@ const PostDescription = () => {
       setPost(data);
     });
   }, [postId]);
+
+  const handleDeletePost = () => {
+    deletePost(postId).then((data) => {
+      navigate("/");
+    });
+  };
 
   return (
     <div className="h-screen">
@@ -81,16 +96,11 @@ const PostDescription = () => {
         </div>
         <div className="flex m-1 pt-3">
           <button
-            className="py-2 bg-blue-600 w-full rounded-btn hover:bg-blue-800 cursor-pointer"
+            onClick={handleDeletePost}
+            className=" bg-red-600 w-full  hover:bg-red-800 cursor-pointer rounded-btn"
             type="button"
           >
-            <Link to={`/posts/${postId}/edit`}>Book</Link>
-          </button>
-          <button
-            className="py-2 bg-red-600 w-full rounded-btn hover:bg-blue-800 cursor-pointer"
-            type="button"
-          >
-            <Link to={`/posts/${postId}/delete`}>Delete</Link>
+            Delete
           </button>
         </div>
       </div>
@@ -98,4 +108,4 @@ const PostDescription = () => {
   );
 };
 
-export default PostDescription;
+export default DeletePost;

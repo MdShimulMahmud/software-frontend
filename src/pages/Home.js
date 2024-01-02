@@ -4,7 +4,7 @@ import Posts from "./Posts";
 
 const Home = () => {
   return (
-    <div className="flex h-[100vh]">
+    <div className="flex h-screen">
       <Sidebar />
       <Posts />
     </div>

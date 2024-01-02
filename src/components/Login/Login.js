@@ -21,7 +21,9 @@ const Login = () => {
     setError(null);
 
     try {
-      const response = await axiosInstance.post("/users/login", formData);
+      const response = await axiosInstance.post("/users/login", formData, {
+        withCredentials: true,
+      });
       console.log("Response from backend:", response.data);
       // response.cookie("token", response.data.token);
       navigate("/");
@@ -33,7 +35,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-[100vh]">
+    <div className="flex justify-center items-center h-screen">
       <form
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-96"
         onSubmit={handleSubmit}

@@ -1,14 +1,18 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import axiosInstance from "../../utils/axios";
+import { fetchLoggedInUser } from "../../features/auth/authSlice";
 const Login = () => {
+  const { isLoading, isError, error, isLoggedIn } = useSelector(
+    (state) => state.auth
+  );
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,23 +21,11 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const response = await axiosInstance.post("/users/login", formData, {
-        withCredentials: true,
-      });
-      console.log("Response from backend:", response.data);
-      // response.cookie("token", response.data.token);
-      navigate("/");
-    } catch (error) {
-      setError("Invalid credentials. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+    dispatch(fetchLoggedInUser(formData));
   };
-
+  if (!isLoading && !isError && isLoggedIn) {
+    navigate("/");
+  }
   return (
     <div className="flex justify-center items-center h-screen">
       <form
@@ -83,7 +75,9 @@ const Login = () => {
             {isLoading ? "Logging In..." : "Login"}
           </button>
         </div>
-        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+        {!isLoading && isError && (
+          <p className="text-red-500 text-sm mt-2">{error}</p>
+        )}
 
         <div className="mt-4 text-center">
           <h3>

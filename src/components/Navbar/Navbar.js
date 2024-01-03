@@ -1,16 +1,19 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { api } from "../../utils/api";
-import axiosInstance from "../../utils/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { fetchLoggedOutUser } from "../../features/auth/authSlice";
 
 const Navbar = () => {
-  const navigate = useNavigate();
-  const handleLogout = async () => {
-    const response = await axiosInstance.get(`${api}/users/logout`);
+  const { isLoading, isError, error, isLoggedIn, user } = useSelector(
+    (state) => state.auth
+  );
 
-    if (response.data) {
-      navigate("/");
-    }
+  const image = user?.profile?.image;
+
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    dispatch(fetchLoggedOutUser());
   };
 
   return (
@@ -29,46 +32,58 @@ const Navbar = () => {
           />
         </div>
         <div>
-          <Link to="/posts/create" className="btn btn-ghost bg-blue-400">
-            Add Post
-          </Link>
-          <Link to="/login" className="btn btn-ghost">
-            Login
-          </Link>
-          <Link to="/register" className="btn btn-ghost">
-            Register
-          </Link>
+          {isLoggedIn && (
+            <Link to="/posts/create" className="btn btn-ghost bg-blue-400">
+              Add Post
+            </Link>
+          )}
+          {!isLoggedIn && (
+            <Link to="/login" className="btn  btn-ghost bg-blue-400">
+              Login
+            </Link>
+          )}
+          {!isLoggedIn && (
+            <Link to="/register" className="btn mx-3 btn-ghost bg-blue-400">
+              Register
+            </Link>
+          )}
         </div>
-        <div className="dropdown dropdown-end">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar"
-          >
-            <div className="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-              />
+        {isLoggedIn && (
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-10 rounded-full">
+                <img
+                  alt="Tailwind CSS Navbar component"
+                  src={
+                    image !== ""
+                      ? image
+                      : "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                  }
+                />
+              </div>
             </div>
+            <ul
+              tabIndex={0}
+              className="mt-3 z-[1] py-3 shadow menu menu-sm dropdown-content bg-white rounded-box w-60"
+            >
+              <li className=" p-1">
+                <Link to="/profile">Profile</Link>
+              </li>
+              <li className=" p-1">
+                <Link>Settings</Link>
+              </li>
+              <li className=" p-1">
+                <button onClick={handleLogout} type="button">
+                  Logout
+                </button>
+              </li>
+            </ul>
           </div>
-          <ul
-            tabIndex={0}
-            className="mt-3 z-[1] py-3 shadow menu menu-sm dropdown-content bg-white rounded-box w-60"
-          >
-            <li className=" p-1">
-              <Link to="/profile">Profile</Link>
-            </li>
-            <li className=" p-1">
-              <Link>Settings</Link>
-            </li>
-            <li className=" p-1">
-              <button onClick={handleLogout} type="button">
-                Logout
-              </button>
-            </li>
-          </ul>
-        </div>
+        )}
       </div>
     </div>
   );

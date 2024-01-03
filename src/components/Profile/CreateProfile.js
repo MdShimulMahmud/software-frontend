@@ -51,16 +51,12 @@ const CreateProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(formData);
-
     try {
       const response = await axiosInstance.post(`${api}/profile/create/`, {
         ...formData,
       });
-
       if (response.data) {
-        navigate("/profile");
-
+        navigate("/");
         setFormData({
           address: "",
           image: [],

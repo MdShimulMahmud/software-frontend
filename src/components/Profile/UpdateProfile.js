@@ -1,80 +1,77 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { api } from "../../utils/api";
 import axiosInstance from "../../utils/axios";
 
-const UpdateProfile = () => {
+const CreateProfile = () => {
   const navigate = useNavigate();
-  const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
-  const [image, setImage] = useState(null);
+  const [formData, setFormData] = useState({
+    address: "",
+    phone: "",
+  });
 
-  const handleAddressChange = (e) => {
-    setAddress(e.target.value);
-  };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
 
-  const handlePhoneChange = (e) => {
-    setPhone(e.target.value);
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!image) {
-      alert("Please upload an image");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("address", address);
-    formData.append("phone", phone);
-    formData.append("image", image);
+    console.log(formData);
 
     try {
-      const response = await axiosInstance.post("/profile/create", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const response = await axiosInstance.put(`${api}/profile/edit`, {
+        ...formData,
       });
+
       if (response.data) {
         navigate("/profile");
-      }
 
-      console.log("Profile created:", response.data);
-      // Handle success or redirection after profile creation
+        setFormData({
+          address: "",
+
+          phone: "",
+        });
+      }
     } catch (error) {
-      console.error("Error creating profile:", error);
-      // Handle error response
+      console.error("Error posting data:", error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>
-          Address:
-          <input type="text" value={address} onChange={handleAddressChange} />
-        </label>
-      </div>
-      <div>
-        <label>
-          Phone:
-          <input type="text" value={phone} onChange={handlePhoneChange} />
-        </label>
-      </div>
-      <div>
-        <label>
-          Profile Image:
-          <input type="file" accept="image/*" onChange={handleImageChange} />
-        </label>
-      </div>
-      <button type="submit">Update Profile</button>
+    <form
+      onSubmit={handleSubmit}
+      className=" w-[90vh]  mx-auto my-5 p-4 bg-gray-100 rounded-lg"
+    >
+      <input
+        type="text"
+        name="address"
+        value={formData.address}
+        onChange={handleInputChange}
+        placeholder="Address"
+        className="w-full border rounded-md p-2 mb-4"
+      />
+      <input
+        type="text"
+        name="phone"
+        value={formData.phone}
+        onChange={handleInputChange}
+        placeholder="Phone"
+        className="w-full border rounded-md p-2 mb-4"
+      />
+      <button
+        type="submit"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Update
+      </button>
     </form>
   );
 };
 
-export default UpdateProfile;
+export default CreateProfile;

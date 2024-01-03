@@ -9,6 +9,7 @@ import BookPost from "./components/Post/BookPost";
 import DeletePost from "./components/Post/DeletePost";
 import PostDescription from "./components/Post/PostDescription";
 import CreateProfile from "./components/Profile/CreateProfile";
+import UpdateProfile from "./components/Profile/UpdateProfile";
 import Registration from "./components/Register/Register";
 import Home from "./pages/Home";
 import Posts from "./pages/Posts";
@@ -20,6 +21,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route exact path="/" element={<Home />} />
+        <Route exact path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Registration />} />
         <Route path="/posts" element={<Posts />} />
@@ -29,6 +31,7 @@ function App() {
         <Route path="/books/:postId" element={<BookPost />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/create" element={<CreateProfile />} />
+        <Route path="/profile/edit" element={<UpdateProfile />} />
       </Routes>
       <Footer />
     </Router>

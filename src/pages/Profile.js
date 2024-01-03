@@ -16,6 +16,7 @@ const Profile = () => {
       try {
         const response = await axiosInstance.get(`${api}/profile`);
         setProfile(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error("Error fetching profile:", error);
       }
@@ -38,6 +39,18 @@ const Profile = () => {
             <div>
               <h2 className="text-lg font-semibold mb-4">Information</h2>
               <p>
+                <span className="font-semibold">Name:</span>{" "}
+                {profile.user.name || "Not provided"}
+              </p>
+              <p>
+                <span className="font-semibold">Email:</span>{" "}
+                {profile.user.email || "Not provided"}
+              </p>
+              <p>
+                <span className="font-semibold">Role:</span>{" "}
+                {profile.user.role || "Not provided"}
+              </p>
+              <p>
                 <span className="font-semibold">Address:</span>{" "}
                 {profile.address || "Not provided"}
               </p>
@@ -49,7 +62,7 @@ const Profile = () => {
             {/* Profile Image */}
             <div className="flex justify-center items-center">
               <img
-                src={profile.imageUrl}
+                src={profile.image}
                 alt="Profile"
                 className="w-40 h-40 rounded-full object-cover"
               />
@@ -63,7 +76,7 @@ const Profile = () => {
           </div>
           <div>
             <button className="my-2 p-2 min-w-full rounded-lg bg-blue-700">
-              <Link to="/profile/create">Update Your Profile</Link>
+              <Link to="/profile/edit">Update Your Profile</Link>
             </button>
           </div>
         </div>

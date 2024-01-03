@@ -84,7 +84,7 @@ const PostDescription = () => {
             className="py-2 bg-blue-600 w-full rounded-btn hover:bg-blue-800 cursor-pointer"
             type="button"
           >
-            <Link to={`/posts/${postId}/edit`}>Book</Link>
+            <Link to={`/books/${postId}`}>Book Now</Link>
           </button>
           <button
             className="py-2 bg-red-600 w-full rounded-btn hover:bg-blue-800 cursor-pointer"

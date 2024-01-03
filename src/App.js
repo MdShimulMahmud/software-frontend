@@ -5,12 +5,14 @@ import Footer from "./components/Footer/Footer";
 import Login from "./components/Login/Login";
 import Navbar from "./components/Navbar/Navbar";
 import AddPost from "./components/Post/AddPost";
+import BookPost from "./components/Post/BookPost";
 import DeletePost from "./components/Post/DeletePost";
-import EditPost from "./components/Post/EditPost";
 import PostDescription from "./components/Post/PostDescription";
+import CreateProfile from "./components/Profile/CreateProfile";
 import Registration from "./components/Register/Register";
 import Home from "./pages/Home";
 import Posts from "./pages/Posts";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -24,7 +26,9 @@ function App() {
         <Route path="/posts/create" element={<AddPost />} />
         <Route path="/posts/:postId" element={<PostDescription />} />
         <Route path="/posts/:postId/delete" element={<DeletePost />} />
-        <Route path="/posts/:postId/edit" element={<EditPost />} />
+        <Route path="/books/:postId" element={<BookPost />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/create" element={<CreateProfile />} />
       </Routes>
       <Footer />
     </Router>

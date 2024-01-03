@@ -1,7 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { api } from "../../utils/api";
+import axiosInstance from "../../utils/axios";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    const response = await axiosInstance.get(`${api}/users/logout`);
+
+    if (response.data) {
+      navigate("/");
+    }
+  };
+
   return (
     <div className="navbar bg-white ">
       <div className="flex-1">
@@ -46,13 +57,15 @@ const Navbar = () => {
             className="mt-3 z-[1] py-3 shadow menu menu-sm dropdown-content bg-white rounded-box w-60"
           >
             <li className=" p-1">
-              <Link>Profile</Link>
+              <Link to="/profile">Profile</Link>
             </li>
             <li className=" p-1">
               <Link>Settings</Link>
             </li>
             <li className=" p-1">
-              <Link>Logout</Link>
+              <button onClick={handleLogout} type="button">
+                Logout
+              </button>
             </li>
           </ul>
         </div>

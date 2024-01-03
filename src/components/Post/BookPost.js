@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../utils/api";
 import axiosInstance from "../../utils/axios";
 
-const EditPost = () => {
+const BookPost = () => {
   const navigate = useNavigate();
   const [post, setPost] = useState({});
 
@@ -44,7 +44,7 @@ const EditPost = () => {
     e.preventDefault();
 
     try {
-      const response = await axiosInstance.put(`${api}/posts/${postId}`, {
+      const response = await axiosInstance.post(`${api}/books/${postId}`, {
         ...formData,
       });
       if (response.data) {
@@ -81,4 +81,4 @@ const EditPost = () => {
   );
 };
 
-export default EditPost;
+export default BookPost;

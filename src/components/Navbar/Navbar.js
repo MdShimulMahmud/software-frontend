@@ -1,19 +1,20 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchLoggedOutUser } from "../../features/auth/authSlice";
 
 const Navbar = () => {
-  const { isLoading, isError, error, isLoggedIn, user } = useSelector(
-    (state) => state.auth
-  );
+  const { isLoggedIn, user } = useSelector((state) => state.auth);
 
-  const image = user?.profile?.image;
-
+  const image = user?.profile?.images;
+  const profile = user?.profile;
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     dispatch(fetchLoggedOutUser());
+    navigate("/");
   };
 
   return (
@@ -59,7 +60,7 @@ const Navbar = () => {
                 <img
                   alt="Tailwind CSS Navbar component"
                   src={
-                    image !== ""
+                    profile !== null
                       ? image
                       : "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
                   }

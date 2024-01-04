@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import loginImage from "../../assets/images/login.svg";
 import { fetchLoggedInUser } from "../../features/auth/authSlice";
 const Login = () => {
-  const { isLoading, isError, error, isLoggedIn } = useSelector(
+  const { isLoading, isError, error, isLoggedIn, isRegistered } = useSelector(
     (state) => state.auth
   );
   const dispatch = useDispatch();
+
+  const [message, setMessage] = useState(null);
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -22,72 +25,92 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(fetchLoggedInUser(formData));
+
+    setMessage(error);
+    setTimeout(() => {
+      setMessage(null);
+    }, 3000);
   };
+
   if (!isLoading && !isError && isLoggedIn) {
     navigate("/");
   }
   return (
-    <div className="flex justify-center items-center h-screen">
-      <form
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-96"
-        onSubmit={handleSubmit}
-      >
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="email"
-          >
-            Email
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
-            name="email"
-            type="text"
-            placeholder="Enter your email"
-            value={formData.email}
-            onChange={handleChange}
+    <div
+      className="flex flex-col justify-center items-center  opacity-100"
+      style={{}}
+    >
+      <div className="flex m-12 p-12 flex-row w-[70%] justify-center relative opacity-100  items-center h-[50%] bg-slate-50 border ">
+        <div className="flex flex-col  justify-center items-center  w-[80vh] h-[90%]">
+          <img
+            src={loginImage}
+            alt="login_image"
+            className="w-[80vh] h-[70vh] mr-10"
           />
         </div>
-        <div className="mb-6">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="password"
+        <div className="flex justify-center items-center w-[80vh] h-[90%]">
+          <form
+            className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-[70vh] h-[90%]"
+            onSubmit={handleSubmit}
           >
-            Password
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
-            name="password"
-            type="password"
-            placeholder="Enter your password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="flex items-center justify-between">
-          <button
-            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
-              isLoading && "opacity-50 cursor-not-allowed"
-            }`}
-            type="submit"
-            disabled={isLoading}
-          >
-            {isLoading ? "Logging In..." : "Login"}
-          </button>
-        </div>
-        {!isLoading && isError && (
-          <p className="text-red-500 text-sm mt-2">{error}</p>
-        )}
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="email"
+              >
+                Email
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-white focus:outline-none focus:shadow-outline"
+                name="email"
+                type="text"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-6">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="password"
+              >
+                Password
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-white  focus:outline-none focus:shadow-outline"
+                name="password"
+                type="password"
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <button
+                className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+                  isLoading && "opacity-50 cursor-not-allowed"
+                }`}
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? "Logging In..." : "Login"}
+              </button>
+            </div>
+            {!isLoading && isError && !isLoggedIn && (
+              <p className="text-red-500 text-sm mt-2">{message}</p>
+            )}
 
-        <div className="mt-4 text-center">
-          <h3>
-            Don't have an account? Create a new account!
-            <strong className="m-1 text-indigo-700">
-              <Link to="/register">Register</Link>
-            </strong>
-          </h3>
+            <div className="mt-4 text-center">
+              <h3>
+                Don't have an account? Create a new account!
+                <strong className="m-1 text-indigo-700">
+                  <Link to="/register">Register</Link>
+                </strong>
+              </h3>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

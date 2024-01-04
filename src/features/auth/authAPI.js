@@ -8,6 +8,11 @@ export const getLoggedInUser = async (data) => {
 
   return respose.data;
 };
+export const getRegisteredUser = async (data) => {
+  const respose = await axiosInstance.post(`/users/register`, data);
+
+  return respose.data;
+};
 
 export const getLoggedOutUser = async () => {
   const respose = await axiosInstance.get(`/users/logout`);

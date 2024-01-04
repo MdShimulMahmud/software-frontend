@@ -1,14 +1,19 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../utils/api";
 import axiosInstance from "../../utils/axios";
 
 const AddPost = () => {
+  const { isLoading, isError, error, isLoggedIn, user, isRegistered } =
+    useSelector((state) => state.auth);
+
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [message, setMessage] = useState("");
+  const [uploading, setUploading] = useState(false);
   const handleImageUpload = async (e) => {
     setLoading(true);
     const files = e.target.files;
@@ -28,6 +33,7 @@ const AddPost = () => {
           ...prevImages,
           prevImages.push(res.data.secure_url),
         ]);
+        setUploading(true);
       } catch (err) {
         console.error("Error uploading image: ", err);
       }
@@ -61,30 +67,46 @@ const AddPost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(formData);
-
-    try {
-      const response = await axiosInstance.post(`${api}/posts/create/`, {
-        ...formData,
-      });
-
-      if (response.data) {
-        navigate("/");
-
-        setFormData({
-          title: "",
-          seatCapacity: 0,
-          price: 0,
-          photos: [],
-          type: "",
-          contact: "",
-          details: "",
-          location: "",
-          coordinates: "",
+    if (
+      formData.title !== "" &&
+      formData.seatCapacity !== 0 &&
+      formData.price !== 0 &&
+      formData.photos.length > 0 &&
+      formData.type !== "" &&
+      formData.contact !== "" &&
+      formData.details !== "" &&
+      formData.location !== "" &&
+      formData.coordinates !== ""
+    ) {
+      try {
+        const response = await axiosInstance.post(`${api}/posts/create/`, {
+          ...formData,
         });
+
+        console.log(response.data);
+
+        if (response.data) {
+          navigate("/");
+          setFormData({
+            title: "",
+            seatCapacity: 0,
+            price: 0,
+            photos: [],
+            type: "",
+            contact: "",
+            details: "",
+            location: "",
+            coordinates: "",
+          });
+        }
+      } catch (error) {
+        setMessage(error);
       }
-    } catch (error) {
-      console.error("Error posting data:", error);
+    } else {
+      setMessage("Please fill up all the input fields!");
+      setTimeout(() => {
+        setMessage("");
+      }, 2000);
     }
   };
 
@@ -166,7 +188,7 @@ const AddPost = () => {
       />
 
       {loading && <p className="text-red-500">Uploading...</p>}
-
+      {<p className="text-red-600 m-3">{message}</p>}
       {formData.photos.length > 0 && (
         <div className="mb-4 flex flex-row">
           {formData.photos.map((photo, index) => (
@@ -179,8 +201,10 @@ const AddPost = () => {
           ))}
         </div>
       )}
+
       <button
         type="submit"
+        disabled={uploading}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
         Submit

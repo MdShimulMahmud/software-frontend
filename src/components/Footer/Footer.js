@@ -3,8 +3,8 @@ import React from "react";
 const Footer = () => {
   return (
     <footer
-      style={{ position: "static", bottom: 0, width: "100%" }}
-      className="bg-gray-800 text-gray-300 py-4"
+      style={{ position: "relative", bottom: 0 }}
+      className="bg-gray-800 text-gray-300 py-4 mx-auto"
     >
       {/* <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-4">
         <div className="mb-4 md:mb-0">
@@ -40,7 +40,7 @@ const Footer = () => {
       </div> */}
       <div className="text-center mt-4">
         <p className="text-sm">
-          &copy; {new Date().getFullYear()} Company Name. All Rights Reserved.
+          &copy; {new Date().getFullYear()} RentSpot. All Rights Reserved.
         </p>
       </div>
     </footer>

@@ -1,14 +1,18 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
+import { createProfile } from "../../features/profile/profileSlice";
 import { api } from "../../utils/api";
 import axiosInstance from "../../utils/axios";
 
 const CreateProfile = () => {
   const navigate = useNavigate();
-  const [images, setImages] = useState("");
+  const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const dispatch = useDispatch();
   const handleImageUpload = async (e) => {
     setLoading(true);
     const files = e.target.files;
@@ -24,7 +28,10 @@ const CreateProfile = () => {
           data
         );
 
-        setImages(() => res.data.secure_url);
+        setImages((prevImages) => [
+          ...prevImages,
+          prevImages.push(res.data.secure_url),
+        ]);
       } catch (err) {
         console.error("Error uploading image: ", err);
       }
@@ -34,7 +41,7 @@ const CreateProfile = () => {
 
   const [formData, setFormData] = useState({
     address: "",
-    image: images,
+    images: images,
     phone: "",
   });
 
@@ -50,6 +57,7 @@ const CreateProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch(createProfile(formData));
 
     try {
       const response = await axiosInstance.post(`${api}/profile/create/`, {
@@ -59,7 +67,7 @@ const CreateProfile = () => {
         navigate("/");
         setFormData({
           address: "",
-          image: [],
+          images: [],
           phone: "",
         });
       }
@@ -69,52 +77,63 @@ const CreateProfile = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className=" w-[90vh]  mx-auto my-5 p-4 bg-gray-100 rounded-lg"
-    >
-      <input
-        type="text"
-        name="address"
-        value={formData.address}
-        onChange={handleInputChange}
-        placeholder="Address"
-        className="w-full border rounded-md p-2 mb-4"
-      />
-      <input
-        type="text"
-        name="phone"
-        value={formData.phone}
-        onChange={handleInputChange}
-        placeholder="Phone"
-        className="w-full border rounded-md p-2 mb-4"
-      />
-
-      <input
-        type="file"
-        onChange={handleImageUpload}
-        multiple
-        className="mb-4"
-      />
-
-      {loading && <p className="text-red-500">Uploading...</p>}
-
-      <div className="mb-4 flex flex-row">
-        {formData.image !== "" && (
-          <img
-            src={formData.image}
-            alt={`cover`}
-            className="w-20 h-20 object-cover mr-2 mb-2"
-          />
-        )}
-      </div>
-      <button
-        type="submit"
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    <div className="w-[60%] h-screen mx-auto flex flex-row justify-center items-center">
+      <form
+        onSubmit={handleSubmit}
+        className=" w-[90vh] h-[40vh]  mx-auto my-5 p-4 bg-gray-100 rounded-lg"
       >
-        Update Profile
-      </button>
-    </form>
+        <label>
+          Address:
+          <input
+            type="text"
+            name="address"
+            value={formData.address}
+            onChange={handleInputChange}
+            placeholder="Address"
+            className="w-full border rounded-md p-2 mb-4"
+          />
+        </label>
+        <label>
+          Phone:
+          <input
+            type="text"
+            name="phone"
+            value={formData.phone}
+            onChange={handleInputChange}
+            placeholder="Phone"
+            className="w-full border rounded-md p-2 mb-4"
+          />
+        </label>
+        <h2> Upload profile photo:</h2>
+        <input
+          type="file"
+          onChange={handleImageUpload}
+          multiple
+          className="mb-4"
+        />
+
+        {loading && <p className="text-red-500">Uploading...</p>}
+
+        {formData.images.length > 0 && (
+          <div className="mb-4 flex flex-row">
+            {formData.images.map((photo, index) => (
+              <img
+                key={index}
+                src={photo}
+                alt={`Photo_no ${index}`}
+                className="w-20 h-20 object-cover mr-2 mb-2"
+              />
+            ))}
+          </div>
+        )}
+        <button
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Update Profile
+        </button>
+      </form>
+    </div>
   );
 };
 

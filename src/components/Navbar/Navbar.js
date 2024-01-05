@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchLoggedOutUser } from "../../features/auth/authSlice";
+import { fetchPosts } from "../../features/posts/postsSlice";
+import { fetchUserProfile } from "../../features/profile/profileSlice";
+import Search from "../Search/Search";
 
 const Navbar = () => {
   const { isLoggedIn, user } = useSelector((state) => state.auth);
@@ -16,6 +19,16 @@ const Navbar = () => {
     dispatch(fetchLoggedOutUser());
     navigate("/");
   };
+  const handleProfile = async () => {
+    dispatch(fetchUserProfile());
+    navigate("/profile");
+  };
+
+  const [search, setSearch] = useState(null);
+
+  const handleSearch = async () => {
+    dispatch(fetchPosts(search));
+  };
 
   return (
     <div className="navbar bg-white ">
@@ -25,13 +38,7 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="flex-none gap-2">
-        <div className="form-control">
-          <input
-            type="text"
-            placeholder="Search"
-            className="input input-bordered w-100 md:w-auto bg-slate-50"
-          />
-        </div>
+        <Search />
         <div>
           {isLoggedIn && (
             <Link to="/posts/create" className="btn btn-ghost bg-blue-400">
@@ -72,11 +79,11 @@ const Navbar = () => {
               className="mt-3 z-[1] py-3 shadow menu menu-sm dropdown-content bg-white rounded-box w-60"
             >
               <li className=" p-1">
-                <Link to="/profile">Profile</Link>
+                <button onClick={handleProfile} type="button">
+                  Profile
+                </button>
               </li>
-              <li className=" p-1">
-                <Link>Settings</Link>
-              </li>
+
               <li className=" p-1">
                 <button onClick={handleLogout} type="button">
                   Logout

@@ -8,8 +8,8 @@ export const createUserProfile = async (data) => {
 
   return respose.data;
 };
-export const userProfile = async () => {
-  const respose = await axiosInstance.get(`/profile`);
+export const getProfile = async () => {
+  const respose = await axiosInstance.get(`/profile/`);
 
   return respose.data;
 };

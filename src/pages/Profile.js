@@ -8,11 +8,11 @@ const Profile = () => {
   const { isLoading, isError, error, isLoggedIn, user, isRegistered } =
     useSelector((state) => state.auth);
 
+  const { profile } = useSelector((state) => state.profile);
+
   function formatTimestamp(timestamp) {
     return format(new Date(timestamp), "yyyy-MM-dd HH:mm:ss");
   }
-
-  const profile = user?.profile;
 
   const name = user?.name;
   const email = user?.email;
@@ -20,13 +20,13 @@ const Profile = () => {
   const posts = user?.posts;
   const book = user?.book;
 
-  const image = user?.profile?.images[0];
-  const address = user?.profile?.address;
-  const phone = user?.profile?.phone;
-  const createdAt = user?.profile?.createdAt;
+  const image = profile?.images[0];
+  const address = profile?.address;
+  const phone = profile?.phone;
+  const createdAt = profile?.createdAt;
 
   return (
-    <div className="flex flex-row  w-[100%] h-screen bg-slate-400 pt-1">
+    <div className="flex flex-row  w-[100%]  bg-slate-400 pt-1">
       <div className="w-1/2 p-10 mr-1 bg-white justify-center items-center">
         <div className="flex flex-col">
           <div className="w-full rounded-full flex justify-center ">
@@ -76,16 +76,18 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className="w-1/2 p-10 bg-white justify-center items-center">
-        {role === "ADMIN" && (
+      <div className="w-1/2 flex flex-row flex-wrap p-10 bg-white justify-center items-center">
+        {(role === "ADMIN" || role === "SELLER") && (
           <div>
-            <h1>Your Posted Property Lists: </h1>
+            <h1 className="text-center text-black bg-blue-500 p-5">
+              Your Posted Property Lists:{" "}
+            </h1>
             {<UserPostsDetails posts={posts} />}
           </div>
         )}
         {role === "BUYER" && (
           <div>
-            <h1>Your Posted Property Lists: </h1>
+            <h1>Your Booked Property Lists: </h1>
             {<UserPostsDetails posts={book} />}
           </div>
         )}

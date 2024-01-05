@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import loginImage from "../../assets/images/login.svg";
 import { fetchLoggedInUser } from "../../features/auth/authSlice";
+import { fetchPosts } from "../../features/posts/postsSlice";
 const Login = () => {
   const { isLoading, isError, error, isLoggedIn, isRegistered } = useSelector(
     (state) => state.auth
@@ -25,6 +26,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(fetchLoggedInUser(formData));
+    dispatch(fetchPosts());
 
     setMessage(error);
     setTimeout(() => {

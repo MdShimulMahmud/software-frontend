@@ -1,4 +1,4 @@
-import { createUserProfile, userProfile } from "./profileAPI";
+import { createUserProfile, getProfile } from "./profileAPI";
 
 const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 
@@ -16,10 +16,10 @@ export const createProfile = createAsyncThunk(
     return profile;
   }
 );
-export const getUserProfile = createAsyncThunk(
-  "profile/getUserProfile",
+export const fetchUserProfile = createAsyncThunk(
+  "profile/fetchUserProfile",
   async () => {
-    const profile = await userProfile();
+    const profile = await getProfile();
     return profile;
   }
 );
@@ -55,15 +55,15 @@ const profileSlice = createSlice({
         state.isError = true;
         state.error = action.error?.message;
       })
-      .addCase(getUserProfile.pending, (state) => {
+      .addCase(fetchUserProfile.pending, (state) => {
         state.isError = false;
         state.isLoading = true;
       })
-      .addCase(getUserProfile.fulfilled, (state, action) => {
+      .addCase(fetchUserProfile.fulfilled, (state, action) => {
         state.isLoading = false;
         state.profile = action.payload;
       })
-      .addCase(getUserProfile.rejected, (state, action) => {
+      .addCase(fetchUserProfile.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.error = action.error?.message;

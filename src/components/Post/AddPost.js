@@ -33,7 +33,7 @@ const AddPost = () => {
           ...prevImages,
           prevImages.push(res.data.secure_url),
         ]);
-        setUploading(true);
+        setLoading(true);
       } catch (err) {
         console.error("Error uploading image: ", err);
       }
@@ -121,7 +121,7 @@ const AddPost = () => {
         value={formData.title}
         onChange={handleInputChange}
         placeholder="Title"
-        className="w-full border rounded-md p-2 mb-4"
+        className="w-full border rounded-md p-2 mb-4 text-white"
       />
       <input
         type="number"
@@ -129,7 +129,7 @@ const AddPost = () => {
         value={formData.seatCapacity}
         onChange={handleInputChange}
         placeholder="Seat Capacity"
-        className="w-full border rounded-md p-2 mb-4"
+        className="w-full border rounded-md p-2 mb-4 text-white"
       />
       <input
         type="number"
@@ -137,7 +137,7 @@ const AddPost = () => {
         value={formData.price}
         onChange={handleInputChange}
         placeholder="Price"
-        className="w-full border rounded-md p-2 mb-4"
+        className="w-full border rounded-md p-2 mb-4 text-white"
       />
       <input
         type="text"
@@ -145,7 +145,7 @@ const AddPost = () => {
         value={formData.type}
         onChange={handleInputChange}
         placeholder="Type"
-        className="w-full border rounded-md p-2 mb-4"
+        className="w-full border rounded-md p-2 mb-4 text-white"
       />
 
       <input
@@ -154,23 +154,23 @@ const AddPost = () => {
         value={formData.contact}
         onChange={handleInputChange}
         placeholder="Contact"
-        className="w-full border rounded-md p-2 mb-4"
+        className="w-full border rounded-md p-2 mb-4 text-white"
       />
       <textarea
         name="details"
         value={formData.details}
         onChange={handleInputChange}
         placeholder="Details"
-        className="w-full border rounded-md p-2 mb-4"
+        className="w-full border rounded-md p-2 mb-4 text-white"
         rows="4"
       ></textarea>
       <input
         type="text"
         name="location"
-        value={formData.location}
+        value={formData.location.toLowerCase().trim()}
         onChange={handleInputChange}
         placeholder="Location"
-        className="w-full border rounded-md p-2 mb-4"
+        className="w-full border rounded-md p-2 mb-4 text-white"
       />
       <input
         type="text"
@@ -178,7 +178,7 @@ const AddPost = () => {
         value={formData.coordinates}
         onChange={handleInputChange}
         placeholder="Coordinates"
-        className="w-full border rounded-md p-2 mb-4"
+        className="w-full border rounded-md p-2 mb-4 text-white"
       />
       <input
         type="file"
@@ -204,7 +204,7 @@ const AddPost = () => {
 
       <button
         type="submit"
-        disabled={uploading}
+        disabled={loading}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
         Submit

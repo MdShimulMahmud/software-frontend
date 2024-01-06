@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchLoggedOutUser } from "../../features/auth/authSlice";
-import { fetchPosts } from "../../features/posts/postsSlice";
 import { fetchUserProfile } from "../../features/profile/profileSlice";
-import Search from "../Search/Search";
 
 const Navbar = () => {
   const { isLoggedIn, user } = useSelector((state) => state.auth);
@@ -24,12 +22,6 @@ const Navbar = () => {
     navigate("/profile");
   };
 
-  const [search, setSearch] = useState(null);
-
-  const handleSearch = async () => {
-    dispatch(fetchPosts(search));
-  };
-
   return (
     <div className="navbar bg-white ">
       <div className="flex-1">
@@ -38,7 +30,13 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="flex-none gap-2">
-        <Search />
+        <form className="form-control">
+          <input
+            type="text"
+            placeholder="search location"
+            className="input input-bordered w-100 md:w-auto bg-slate-50"
+          />
+        </form>
         <div>
           {isLoggedIn && (
             <Link to="/posts/create" className="btn btn-ghost bg-blue-400">

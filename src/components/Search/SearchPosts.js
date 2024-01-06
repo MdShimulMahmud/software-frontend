@@ -1,18 +1,20 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import PostItem from "../components/Post/PostItem";
+import PostItem from "../Post/PostItem";
 
-const Posts = () => {
-  const { posts, isLoading, isError, error } = useSelector(
+const SearchPosts = () => {
+  const dispatch = useDispatch();
+
+  const { isLoading, isError, error, searchedPosts } = useSelector(
     (state) => state.posts
   );
 
   return (
     <>
       {!isLoading && !isError && (
-        <div className="flex flex-row md:justify-start md:items-start justify-center items-center flex-wrap">
-          {posts.map((post) => (
+        <div className="flex md:justify-start md:items-start justify-center items-center flex-wrap">
+          {searchedPosts.map((post) => (
             <Link to={`/posts/${post.id}`} className="m-4" key={post.id}>
               <PostItem post={post} />
             </Link>
@@ -29,4 +31,4 @@ const Posts = () => {
   );
 };
 
-export default Posts;
+export default SearchPosts;

@@ -5,6 +5,9 @@ const initialState = {
   isLoading: false,
   isError: false,
   posts: [],
+  relatedPosts: [],
+  searchedPosts: [],
+  filterPosts: [],
   error: "",
 };
 
@@ -21,11 +24,18 @@ const postsSlice = createSlice({
   initialState,
   reducers: {
     filters: (state, action) => {
-      state.posts = state.posts.filter((post) => post.type === action.payload);
+      state.filterPosts = state.posts.filter(
+        (post) => post.type === action.payload
+      );
     },
     searched: (state, action) => {
-      state.posts = state.posts.filter(
+      state.searchedPosts = state.posts.filter(
         (post) => post.location === action.payload
+      );
+    },
+    related: (state, action) => {
+      state.relatedPosts = state.posts.filter(
+        (post) => post.id !== action.payload
       );
     },
   },
@@ -51,4 +61,4 @@ const postsSlice = createSlice({
 
 export default postsSlice.reducer;
 
-export const { filters, searched } = postsSlice.actions;
+export const { filters, searched, related } = postsSlice.actions;

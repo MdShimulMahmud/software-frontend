@@ -1,18 +1,21 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import PostItem from "../components/Post/PostItem";
+import PostItem from "./PostItem";
 
-const Posts = () => {
-  const { posts, isLoading, isError, error } = useSelector(
+const RelatedPosts = () => {
+  const { isLoading, isError, error, relatedPosts } = useSelector(
     (state) => state.posts
   );
 
   return (
-    <>
+    <div className="mx-auto bg-white">
+      <div className="bg-slate-400 font-bold  font-serif  text-center p-3 ">
+        See more
+      </div>
       {!isLoading && !isError && (
-        <div className="flex flex-row md:justify-start md:items-start justify-center items-center flex-wrap">
-          {posts.map((post) => (
+        <div className="flex md:justify-start md:items-start justify-center items-center flex-wrap">
+          {relatedPosts.map((post) => (
             <Link to={`/posts/${post.id}`} className="m-4" key={post.id}>
               <PostItem post={post} />
             </Link>
@@ -25,8 +28,8 @@ const Posts = () => {
           {!isLoading && isError && error && <h1>{error}</h1>}
         </div>
       }
-    </>
+    </div>
   );
 };
 
-export default Posts;
+export default RelatedPosts;

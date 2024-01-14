@@ -11,11 +11,14 @@ import PostDescription from "./components/Post/PostDescription";
 import CreateProfile from "./components/Profile/CreateProfile";
 import UpdateProfile from "./components/Profile/UpdateProfile";
 import Registration from "./components/Register/Register";
+import useCheckAuth from "./hooks/useCheckAuth";
 import Home from "./pages/Home";
 import Posts from "./pages/Posts";
 import Profile from "./pages/Profile";
 
 function App() {
+  const authChecked = useCheckAuth();
+
   return (
     <Router>
       <Navbar />

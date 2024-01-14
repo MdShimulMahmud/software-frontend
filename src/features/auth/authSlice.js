@@ -20,6 +20,7 @@ export const fetchLoggedInUser = createAsyncThunk(
   "auth/fetchLoggedInUser",
   async (data) => {
     const users = await getLoggedInUser(data);
+
     return users;
   }
 );

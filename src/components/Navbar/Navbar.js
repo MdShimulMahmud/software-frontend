@@ -15,7 +15,8 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     dispatch(fetchLoggedOutUser());
-    navigate("/");
+    localStorage.clear();
+    navigate("/login");
   };
   const handleProfile = async () => {
     dispatch(fetchUserProfile());

@@ -35,6 +35,13 @@ const Login = () => {
   };
 
   if (!isLoading && !isError && isLoggedIn) {
+    localStorage.setItem(
+      "auth",
+      JSON.stringify({
+        email: formData.email,
+        password: formData.password,
+      })
+    );
     navigate("/");
   }
   return (

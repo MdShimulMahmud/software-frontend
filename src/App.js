@@ -11,30 +11,108 @@ import PostDescription from "./components/Post/PostDescription";
 import CreateProfile from "./components/Profile/CreateProfile";
 import UpdateProfile from "./components/Profile/UpdateProfile";
 import Registration from "./components/Register/Register";
-import useCheckAuth from "./hooks/useCheckAuth";
 import Home from "./pages/Home";
 import Posts from "./pages/Posts";
 import Profile from "./pages/Profile";
+import PrivateRoutes from "./routes/PrivateRoutes";
+import PublicRoutes from "./routes/PublicRoutes";
 
 function App() {
-  const authChecked = useCheckAuth();
-
   return (
     <Router>
       <Navbar />
       <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/home" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Registration />} />
-        <Route path="/posts" element={<Posts />} />
-        <Route path="/posts/create" element={<AddPost />} />
+        <Route
+          exact
+          path="/"
+          element={
+            <PublicRoutes>
+              <Home />
+            </PublicRoutes>
+          }
+        />
+        <Route
+          exact
+          path="/home"
+          element={
+            <PublicRoutes>
+              <Home />
+            </PublicRoutes>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <PublicRoutes>
+              <Login />
+            </PublicRoutes>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PublicRoutes>
+              <Registration />
+            </PublicRoutes>
+          }
+        />
+        <Route
+          path="/posts"
+          element={
+            <PublicRoutes>
+              <Posts />
+            </PublicRoutes>
+          }
+        />
+        <Route
+          path="/posts/create"
+          element={
+            <PrivateRoutes>
+              <AddPost />
+            </PrivateRoutes>
+          }
+        />
         <Route path="/posts/:postId" element={<PostDescription />} />
-        <Route path="/posts/:postId/delete" element={<DeletePost />} />
-        <Route path="/books/:postId" element={<BookPost />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/profile/create" element={<CreateProfile />} />
-        <Route path="/profile/edit" element={<UpdateProfile />} />
+        <Route
+          path="/posts/:postId/delete"
+          element={
+            <PrivateRoutes>
+              <DeletePost />
+            </PrivateRoutes>
+          }
+        />
+        <Route
+          path="/books/:postId"
+          element={
+            <PrivateRoutes>
+              <BookPost />
+            </PrivateRoutes>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoutes>
+              <Profile />
+            </PrivateRoutes>
+          }
+        />
+        <Route
+          path="/profile/create"
+          element={
+            <PrivateRoutes>
+              <CreateProfile />
+            </PrivateRoutes>
+          }
+        />
+        <Route
+          path="/profile/edit"
+          element={
+            <PrivateRoutes>
+              <UpdateProfile />
+            </PrivateRoutes>
+          }
+        />
       </Routes>
       <Footer />
     </Router>

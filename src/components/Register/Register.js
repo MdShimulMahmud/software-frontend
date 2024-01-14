@@ -71,6 +71,7 @@ const Registration = () => {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
                 id="name"
                 type="text"
+                required
                 placeholder="Enter your username"
                 value={formData.name}
                 onChange={handleChange}
@@ -87,6 +88,7 @@ const Registration = () => {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
                 id="role"
                 type="text"
+                required
                 placeholder="BUYER or SELLER"
                 value={formData.role.toUpperCase()}
                 onChange={handleChange}
@@ -103,6 +105,7 @@ const Registration = () => {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
                 id="email"
                 type="text"
+                required
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={handleChange}
@@ -119,6 +122,7 @@ const Registration = () => {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
                 id="password"
                 type="password"
+                required
                 placeholder="Enter your password"
                 value={formData.password}
                 onChange={handleChange}

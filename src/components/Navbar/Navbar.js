@@ -27,7 +27,9 @@ const Navbar = () => {
     <div className="navbar bg-white ">
       <div className="flex-1">
         <Link to="/" className="btn btn-ghost text-xl bg-gray">
-          RentSpot
+          RentSpot : <small>
+            Home Near CUET
+          </small>
         </Link>
       </div>
       <div className="flex-none gap-2">

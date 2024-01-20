@@ -3,5 +3,5 @@ import useAuth from "./PublicRoutes";
 
 export default function PrivateRoutes({ children }) {
   const isLoggedIn = useAuth();
-  return isLoggedIn ? children : <Navigate to="/" />;
+  return !isLoggedIn ? children : <Navigate to="/" />;
 }

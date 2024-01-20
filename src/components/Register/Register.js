@@ -68,7 +68,7 @@ const Registration = () => {
                 Username
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                 id="name"
                 type="text"
                 required
@@ -85,7 +85,7 @@ const Registration = () => {
                 Role
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                 id="role"
                 type="text"
                 required
@@ -102,7 +102,7 @@ const Registration = () => {
                 Email
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                 id="email"
                 type="text"
                 required
@@ -119,7 +119,7 @@ const Registration = () => {
                 Password
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                 id="password"
                 type="password"
                 required
@@ -130,7 +130,7 @@ const Registration = () => {
             </div>
             <div className="flex items-center justify-between">
               <button
-                className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+                className={`bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
                   isLoading && "opacity-50 cursor-not-allowed"
                 }`}
                 type="submit"
